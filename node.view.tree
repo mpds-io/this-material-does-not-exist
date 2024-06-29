@@ -1,0 +1,886 @@
+$mol_theme_auto $mol_plugin
+	attr * mol_theme <= theme \
+
+$optimade_cifplayer_lib_three_view $mol_view
+	sub /
+		<= canvas null
+	scene null
+	camera null
+	controls null
+	controls_target null
+	on_render null
+	new_object*? null
+	object*? null
+	auto /
+		<= controls_target_changed null
+		<= resize null
+		<= start_render_loop null
+
+$mol_paragraph $mol_view
+	line_height 24
+	letter_width 7
+	width_limit +Infinity
+	row_width 0
+	sub / <= title
+
+$mol_svg $mol_view
+	dom_name \svg
+	dom_name_space \http://www.w3.org/2000/svg
+	font_size 16
+	font_family \
+	style_size *
+
+$mol_svg_root $mol_svg
+	dom_name \svg
+	attr *
+		^
+		viewBox <= view_box \0 0 100 100
+		preserveAspectRatio <= aspect \xMidYMid
+
+$mol_svg_path $mol_svg
+	dom_name \path
+	attr *
+		^
+		d <= geometry \
+
+
+$mol_icon $mol_svg_root
+	view_box \0 0 24 24
+	minimal_width 16
+	minimal_height 16
+	sub /
+		<= Path $mol_svg_path
+			geometry <= path \
+
+$mol_icon_eye $mol_icon path \M12,9A3,3 0 0,0 9,12A3,3 0 0,0 12,15A3,3 0 0,0 15,12A3,3 0 0,0 12,9M12,17A5,5 0 0,1 7,12A5,5 0 0,1 12,7A5,5 0 0,1 17,12A5,5 0 0,1 12,17M12,4.5C7,4.5 2.73,7.61 1,12C2.73,16.39 7,19.5 12,19.5C17,19.5 21.27,16.39 23,12C21.27,7.61 17,4.5 12,4.5Z
+
+$mol_icon_eye_check $mol_icon path \M23.5,17L18.5,22L15,18.5L16.5,17L18.5,19L22,15.5L23.5,17M12,9A3,3 0 0,1 15,12A3,3 0 0,1 12,15A3,3 0 0,1 9,12A3,3 0 0,1 12,9M12,17C12.5,17 12.97,16.93 13.42,16.79C13.15,17.5 13,18.22 13,19V19.45L12,19.5C7,19.5 2.73,16.39 1,12C2.73,7.61 7,4.5 12,4.5C17,4.5 21.27,7.61 23,12C22.75,12.64 22.44,13.26 22.08,13.85C21.18,13.31 20.12,13 19,13C18.22,13 17.5,13.15 16.79,13.42C16.93,12.97 17,12.5 17,12A5,5 0 0,0 12,7A5,5 0 0,0 7,12A5,5 0 0,0 12,17Z
+
+$mol_speck $mol_view
+	attr *
+		^
+		mol_theme <= theme \$mol_theme_accent
+	style *
+		^
+		minHeight \1em
+	sub /
+		<= value null
+
+$mol_button $mol_view
+	enabled true
+	click?event null
+	event_click?event null
+	event *
+		^
+		click?event <=> event_activate?event null
+		dblclick?event <=> clicks?event null
+		keydown?event <=> event_key_press?event null 
+	attr *
+		^
+		disabled <= disabled false
+		role \button
+		tabindex <= tab_index 0
+		title <= hint_safe <= hint \
+	sub /$mol_view_content
+		<= title
+	Speck $mol_speck
+		value <= error \
+
+$mol_button_typed $mol_button
+	minimal_height 40
+	minimal_width 40
+
+$mol_button_minor $mol_button_typed
+
+$mol_check $mol_button_minor
+	attr *
+		^
+		mol_check_checked <= checked? false
+		aria-checked <= aria_checked \false
+		role <= aria_role \checkbox
+	sub /$mol_view_content
+		<= Icon null
+		<= label /
+			<= Title $mol_view
+				sub /
+					<= title \
+
+$mol_icon_tick $mol_icon path \M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z
+
+$mol_check_box $mol_check
+	Icon $mol_icon_tick
+
+$mol_list $mol_view
+	render_visible_only true
+	render_over 0
+	sub <= rows /$mol_view
+	Empty $mol_view
+	Gap_before $mol_view style * paddingTop <= gap_before 0
+	Gap_after $mol_view style * paddingTop <= gap_after 0
+	view_window /
+		0
+		0
+
+$mol_scroll $mol_view
+	scroll_top? 0
+	scroll_left? 0
+	field *
+		^
+		tabIndex <= tabindex -1
+	event *
+		^
+		scroll?event <=> event_scroll?event null
+
+$mol_pop $mol_view
+	showed? false
+	align_vert \
+	align_hor \
+	prefer \vert
+	sub /
+		<= Anchor null
+	sub_visible /
+		<= Anchor
+		<= Bubble $mol_pop_bubble
+			align <= align \bottom_center
+			content <= bubble_content /$mol_view_content
+			height_max <= height_max 9999
+
+$mol_pop_bubble $mol_view
+	sub <= content /$mol_view_content
+	style *
+		^
+		maxHeight <= height_max 9999
+	attr *
+		^
+		mol_pop_align <= align \
+		tabindex 0
+
+$mol_pick $mol_pop
+	event *
+		^
+		keydown?event <=> keydown?event null
+	Anchor <= Trigger $mol_check
+		minimal_width 40
+		minimal_height 40
+		enabled <= trigger_enabled true
+		checked? <=> showed?
+		clicks? <=> clicks? null
+		sub <= trigger_content /$mol_view_content
+			<= title
+		hint <= hint \
+
+$mol_hotkey $mol_plugin
+	event *
+		^
+		keydown?event <=> keydown?event null
+	key *
+	mod_ctrl false
+	mod_alt false
+	mod_shift false
+
+$mol_string $mol_view
+	dom_name \input
+	enabled true
+	minimal_height 40
+	autocomplete false
+	selection? /number
+		0
+		0
+	auto /
+		<= selection_watcher null
+		<= error_report null
+	field *
+		^
+		disabled <= disabled false
+		value <= value_changed? <=> value? \
+		placeholder <= hint_visible <= hint \
+		spellcheck <= spellcheck true
+		autocomplete <= autocomplete_native \
+		selectionEnd <= selection_end 0
+		selectionStart <= selection_start 0
+		inputMode <= keyboard \text
+		enterkeyhint <= enter \go
+	attr *
+		^
+		maxlength <= length_max +Infinity
+		type <= type? \text
+	event *
+		^
+		input?event <=> event_change?event null
+	plugins /
+		<= Submit $mol_hotkey
+			mod_ctrl <= submit_with_ctrl false
+			key * enter?event <=> submit?event null
+
+$mol_icon_minus $mol_icon path \M19,13H5V11H19V13Z
+
+$mol_icon_plus $mol_icon path \M19,13H13V19H11V13H5V11H11V5H13V11H19V13Z
+
+$mol_number $mol_view
+	precision_view <= precision 1
+	precision_change <= precision 1
+	value_min -Infinity
+	value_max +Infinity
+	value? +NaN
+	enabled true
+	sub /
+		<= String $mol_string
+			- \ we don't want native number controls in mobile devices
+			- \ https://stackoverflow.com/questions/3790935/can-i-hide-the-html5-number-input-s-spin-box
+			type <= type \tel
+			value? <=> value_string? \
+			hint <= hint \ 
+			enabled <= string_enabled <= enabled
+			submit? <=> submit? null
+		<= Dec $mol_button_minor
+			event_click? <=> event_dec? null
+			enabled <= dec_enabled <= enabled
+			sub / <= dec_icon $mol_icon_minus
+		<= Inc $mol_button_minor
+			event_click? <=> event_inc? null
+			enabled <= inc_enabled <= enabled
+			sub / <= inc_icon $mol_icon_plus
+
+$mol_icon_image $mol_icon path \M8.5,13.5L11,16.5L14.5,12L19,18H5M21,19V5C21,3.89 20.1,3 19,3H5A2,2 0 0,0 3,5V19A2,2 0 0,0 5,21H19A2,2 0 0,0 21,19Z
+
+$mol_icon_image_filter $mol_icon path \M21,17H7V3H21M21,1H7C5.9,1 5,1.9 5,3V17C5,18.1 5.9,19 7,19H21C22.1,19 23,18.1 23,17V3C23,1.9 22.1,1 21,1M3,5H1V21C1,22.1 1.9,23 3,23H19V21H3M15.96,10.29L13.21,13.83L11.25,11.47L8.5,15H19.5L15.96,10.29Z
+
+$mol_icon_image_filter_center_focus $mol_icon path \M12,9A3,3 0 0,0 9,12A3,3 0 0,0 12,15A3,3 0 0,0 15,12A3,3 0 0,0 12,9M19,19H15V21H19A2,2 0 0,0 21,19V15H19M19,3H15V5H19V9H21V5A2,2 0 0,0 19,3M5,5H9V3H5A2,2 0 0,0 3,5V9H5M5,15H3V19A2,2 0 0,0 5,21H9V19H5V15Z
+
+$mol_check_icon $mol_check
+
+$mol_icon_arrow_expand $mol_icon path \M10,21V19H6.41L10.91,14.5L9.5,13.09L5,17.59V14H3V21H10M14.5,10.91L19,6.41V10H21V3H14V5H17.59L13.09,9.5L14.5,10.91Z
+
+$mol_icon_arrow_expand_all $mol_icon path \M9.5,13.09L10.91,14.5L6.41,19H10V21H3V14H5V17.59L9.5,13.09M10.91,9.5L9.5,10.91L5,6.41V10H3V3H10V5H6.41L10.91,9.5M14.5,13.09L19,17.59V14H21V21H14V19H17.59L13.09,14.5L14.5,13.09M13.09,9.5L17.59,5H14V3H21V10H19V6.41L14.5,10.91L13.09,9.5Z
+
+$mol_icon_magnify $mol_icon path \M9.5,3A6.5,6.5 0 0,1 16,9.5C16,11.11 15.41,12.59 14.44,13.73L14.71,14H15.5L20.5,19L19,20.5L14,15.5V14.71L13.73,14.44C12.59,15.41 11.11,16 9.5,16A6.5,6.5 0 0,1 3,9.5A6.5,6.5 0 0,1 9.5,3M9.5,5C7,5 5,7 5,9.5C5,12 7,14 9.5,14C12,14 14,12 14,9.5C14,7 12,5 9.5,5Z
+
+$mol_icon_magnify_plus $mol_icon path \M9,2A7,7 0 0,1 16,9C16,10.57 15.5,12 14.61,13.19L15.41,14H16L22,20L20,22L14,16V15.41L13.19,14.61C12,15.5 10.57,16 9,16A7,7 0 0,1 2,9A7,7 0 0,1 9,2M8,5V8H5V10H8V13H10V10H13V8H10V5H8Z
+
+$mol_icon_magnify_plus_outline $mol_icon path \M15.5,14L20.5,19L19,20.5L14,15.5V14.71L13.73,14.43C12.59,15.41 11.11,16 9.5,16A6.5,6.5 0 0,1 3,9.5A6.5,6.5 0 0,1 9.5,3A6.5,6.5 0 0,1 16,9.5C16,11.11 15.41,12.59 14.43,13.73L14.71,14H15.5M9.5,14C12,14 14,12 14,9.5C14,7 12,5 9.5,5C7,5 5,7 5,9.5C5,12 7,14 9.5,14M12,10H10V12H9V10H7V9H9V7H10V9H12V10Z
+
+$mol_icon_magnify_minus $mol_icon path \M9,2A7,7 0 0,1 16,9C16,10.57 15.5,12 14.61,13.19L15.41,14H16L22,20L20,22L14,16V15.41L13.19,14.61C12,15.5 10.57,16 9,16A7,7 0 0,1 2,9A7,7 0 0,1 9,2M5,8V10H13V8H5Z
+
+$mol_icon_magnify_minus_outline $mol_icon path \M15.5,14H14.71L14.43,13.73C15.41,12.59 16,11.11 16,9.5A6.5,6.5 0 0,0 9.5,3A6.5,6.5 0 0,0 3,9.5A6.5,6.5 0 0,0 9.5,16C11.11,16 12.59,15.41 13.73,14.43L14,14.71V15.5L19,20.5L20.5,19L15.5,14M9.5,14C7,14 5,12 5,9.5C5,7 7,5 9.5,5C12,5 14,7 14,9.5C14,12 12,14 9.5,14M7,9H12V10H7V9Z
+
+$mol_icon_brightness_6 $mol_icon path \M12,18V6A6,6 0 0,1 18,12A6,6 0 0,1 12,18M20,15.31L23.31,12L20,8.69V4H15.31L12,0.69L8.69,4H4V8.69L0.69,12L4,15.31V20H8.69L12,23.31L15.31,20H20V15.31Z
+
+$mol_lights_toggle $mol_check_icon
+	Icon <= Lights_icon $mol_icon_brightness_6
+	hint @ \Toggle lights
+	checked? <=> lights? false
+
+$mol_check_list $mol_view
+	dictionary *
+	Option* $mol_check
+		checked? <=> option_checked*? false
+		label <= option_label* /
+			<= option_title* \
+		enabled <= option_enabled* <= enabled true
+		hint <= option_hint* \
+		minimal_height 24
+	options *
+	keys /string
+	sub <= items /$mol_check
+
+$mol_switch $mol_check_list
+	value? \
+
+$mol_card $mol_list
+	attr *
+		^
+		mol_card_status_type <= status \
+	rows /$mol_view
+		<= Content $mol_view
+			sub <= content /$mol_view_content
+				<= title
+		<= Status $mol_view
+			minimal_height 30
+			sub /
+				<= status_text <= status \
+
+$optimade_cifplayer_player $mol_view
+	data? null
+	externals? null
+	atom_radius_scale 0.6
+	zoom_scale_step 0.3
+	vibrate? null
+	unvibrate null
+	spread_cells /
+		<= spread_a? 1
+		<= spread_b? 1
+		<= spread_c? 1
+	spread_cells_limit 50
+	-
+	plugins /
+		<= Theme $mol_theme_auto
+	-
+	auto /
+		<= dir_light null
+		<= ambient_light null
+		^ atom_boxes /
+		^ overlay_boxes /
+		<= cell_box null
+		<= axes_box null
+		<= overlay_changed null
+	atom_box* null
+	overlay_box* null
+	-
+	sub /
+		<= Three $optimade_cifplayer_lib_three_view
+			scene => scene
+			controls => controls
+			controls_target <= controls_target null
+			camera => camera
+			on_render <= on_render null
+		<= Left_panel $mol_view
+			sub <= left_panel /
+				<= Info $mol_view
+					sub <= info_sub /
+						<= Descr_a $mol_paragraph
+							title <= descr_a \a=
+						<= Descr_b $mol_paragraph
+							title <= descr_b \b=
+						<= Descr_c $mol_paragraph
+							title <= descr_c \c=
+						<= Descr_alpha $mol_paragraph
+							title <= descr_alpha \α=
+						<= Descr_beta $mol_paragraph
+							title <= descr_beta \β=
+						<= Descr_gamma $mol_paragraph
+							title <= descr_gamma \γ=
+				^ symlabel_visible / <= Symlabel $mol_pick
+					trigger_content /
+						<= Sym_icon $mol_icon_eye_check
+						<= symlabel \SG
+					bubble_content /
+						<= Toogle_all $mol_button_minor
+							title <= Toogle_all_title \Enable all
+							click? <=> toogle_all_symmetry? null
+						<= Sym_list $mol_scroll
+							sub /
+								<= Sym_checks $mol_list
+									sub <= sym_checks /
+										<= Sym_check*0 $mol_check_box
+											title <= sym_name* \
+											checked? <=> symmetry_visible*? false
+				<= Spread_cells $mol_pick
+					trigger_content /
+						<= spread_cell_label \1×1×1
+					bubble_content /
+						<= Spread_label_a $mol_paragraph
+							title \a
+						<= Spread_a $mol_number
+							value? <=> spread_a?
+							hint \1
+							value_min 1
+							value_max <= spread_limit_a 1
+						<= Spread_label_b $mol_paragraph
+							title \b
+						<= Spread_b $mol_number
+							value? <=> spread_b?
+							hint \1
+							value_min 1
+							value_max <= spread_limit_b 1
+						<= Spread_label_c $mol_paragraph
+							title \c
+						<= Spread_c $mol_number
+							value? <=> spread_c?
+							hint \1
+							value_min 1
+							value_max <= spread_limit_c 1
+				<= Center $mol_check_icon
+					checked? <=> centered? true
+					Icon <= Center_icon $mol_icon_image_filter_center_focus
+		<= Tools $mol_view
+			sub /
+				<= Fullscreen $mol_check
+					checked? <=> fullscreen? false
+					Icon <= Expand_icon $mol_icon_arrow_expand_all
+				<= Zoom_section $mol_list
+					sub /
+						<= Zoom_up $mol_button_minor
+							click? <=> zoom_up? null
+							sub / <= Zoom_up_icon $mol_icon_magnify_plus_outline
+						<= Zoom_down $mol_button_minor
+							click? <=> zoom_down? null
+							sub / <= Zoom_down_icon $mol_icon_magnify_minus_outline
+				<= Lights $mol_lights_toggle
+		<= Overlays $mol_view
+			sub <= overlays_sub /
+				<= Switch_overlay $mol_switch
+					value? <=> overlay? \S
+					options <= available_overlays *string
+						\
+							\display none
+						S \elements
+		^ message_visible / <= Message $mol_view
+			sub /
+				<= Message_card $mol_card
+					theme \$mol_theme_special
+					title <= message \
+	colors_light *
+		a \#990000
+		b \#009900
+		c \#0099FF
+	colors_dark *
+		a \#EE4B2B
+		b \#009900
+		c \#0099FF
+	cell_lines_color \#DDDDDD
+	axcolor /
+		<= color_a \
+		<= color_b \
+		<= color_c \
+	style *
+		^
+		--color_a <= color_a
+		--color_b <= color_b
+		--color_c <= color_c
+	attr *
+		^
+		fullscreen <= fullscreen?
+
+$mol_link $mol_view
+	uri \
+	dom_name \a
+	uri_off \
+	uri_native null
+	external false
+	attr *
+		^
+		href <= uri_toggle \
+		title <= hint_safe <= hint \
+		target <= target \_self
+		download <= file_name \
+		mol_link_current <= current false
+		rel <= relation \
+	sub /$mol_view_content
+		<= title
+	arg *
+	event *
+		^
+		click?event <=> click?event <=> event_click?event null
+
+$mol_image $mol_view
+	dom_name \img
+	field *any
+		^
+		src <= uri \
+		alt <= title
+		loading <= loading \eager
+		decoding <= decoding \async
+		crossOrigin <= cors null
+	attr *any
+		^
+		width <= natural_width 0
+		height <= natural_height 0
+	event *any
+		load? <=> load? null
+	minimal_width 16
+	minimal_height 16
+
+$mol_link_iconed $mol_link
+	sub /
+		<= Icon $mol_image
+			uri <= icon \
+			title \
+	content /
+		<= title <= uri
+	host \
+
+$mol_dimmer $mol_paragraph
+	haystack \
+	needle \
+	sub <= parts /$mol_view_content
+	Low* $mol_paragraph
+		sub /
+			<= string* \
+	High* $mol_paragraph
+		sub /
+			<= string* \
+
+$mol_html_view $mol_list
+	html \
+	dom null
+	safe_link* \
+	views* /
+	xss_uri \https://en.wikipedia.org/wiki/XSS#
+	Heading* $mol_html_view_heading
+		level <= heading_level* 1
+		sub <= content* /
+	Paragraph* $mol_paragraph
+		sub <= content* /
+	List* $mol_list
+		rows <= content* /
+	Quote* $mol_list
+		rows <= content* /
+	Strong* $mol_paragraph
+		sub <= content* /
+	Emphasis* $mol_paragraph
+		sub <= content* /
+	Deleted* $mol_paragraph
+		sub <= content* /
+	Inserted* $mol_paragraph
+		sub <= content* /
+	Code* $mol_paragraph
+		sub <= content* /
+	Link* $mol_link_iconed
+		uri <= link_uri* \
+		content <= content* /
+	Image* $mol_image
+		uri <= image_uri* \
+	Break* $mol_paragraph
+		sub /
+	Text* $mol_dimmer
+		needle <= highlight \
+		haystack <= text* \
+
+$mol_html_view_heading $mol_paragraph
+	attr *
+		^
+		mol_html_view_heading <= level 1
+
+$optimade_tmdne_html_view $mol_html_view
+	minimal_height 16
+	Subscript* $mol_view
+		dom_name \sub
+		sub <= content*
+	Superscript* $mol_view
+		dom_name \sup
+		sub <= content*
+	Text* $mol_dimmer
+		minimal_height 16
+		needle <= highlight
+		haystack <= text*
+
+$mol_touch $mol_plugin
+	start_zoom? 0
+	start_distance? 0
+	zoom? 1
+	allow_draw true
+	allow_pan true
+	allow_zoom true
+	action_type? \
+	action_point? $mol_vector_2d<number> /
+		NaN
+		NaN
+	-
+	start_pan? /
+		0
+		0
+	pan? $mol_vector_2d<number> /
+		0
+		0
+	pointer_center $mol_vector_2d<number> /
+		NaN
+		NaN
+	-
+	start_pos? null
+	swipe_precision 16
+	-
+	swipe_right? null
+	swipe_bottom? null
+	swipe_left? null
+	swipe_top? null
+	-
+	swipe_from_right? null
+	swipe_from_bottom? null
+	swipe_from_left? null
+	swipe_from_top? null
+	-
+	swipe_to_right? null
+	swipe_to_bottom? null
+	swipe_to_left? null
+	swipe_to_top? null
+	-
+	draw_start?event null
+	draw?event null
+	draw_end?event null
+	-
+	style *
+		^
+		touch-action \none
+		overscroll-behavior \none
+	-
+	event *
+		^
+		pointerdown?event <=> event_start?event null
+		pointermove?event <=> event_move?event null
+		pointerup?event <=> event_end?event null
+		pointerleave?event <=> event_leave?event null
+		wheel?event <=> event_wheel?event null
+
+$optimade_tmdne_swipe $mol_view
+	plugins /
+		<= Touch $mol_touch
+			allow_draw false
+			allow_pan <= allowed true
+			pan? => pan?
+	speed_threshold 1
+	right_threshold <= threshold 60
+	left_threshold <= threshold
+	passed \
+	passed_left false
+	passed_right false
+	swiped_to? \
+	swipe_to_right null
+	swipe_to_left null
+	on_swiped null
+	reset null
+	x? 0
+	sub /
+		<= Float $mol_view
+			sub <= content /
+			style *
+				left <= left \0px
+				transition <= transition? \
+	pointer_holding? false
+	event *
+		^
+		pointerdown? <=> pointerdown? null
+		pointerup? <=> pointerup? null
+
+$mol_stack $mol_view
+
+$mol_text_code_token $mol_dimmer
+	attr *
+		^
+		mol_text_code_token_type <= type \
+
+$mol_text_code_token_link $mol_text_code_token
+	dom_name \a
+	type \code-link
+	attr *
+		^
+		href <= uri \
+		target \_blank
+
+$mol_text_code_row $mol_paragraph
+	text \
+	minimal_height 24
+	numb_showed true
+	syntax null
+	uri_resolve* \
+	Numb $mol_view
+		sub /
+			<= numb 0
+	Token* $mol_text_code_token
+		type <= token_type* \
+		haystack <= token_text* \
+		needle <= highlight \
+	Token_link* $mol_text_code_token_link
+		haystack <= token_text* \
+		needle <= highlight \
+		uri <= token_uri* \
+	find_pos* null
+
+$mol_icon_clipboard $mol_icon path \M19,3H14.82C14.4,1.84 13.3,1 12,1C10.7,1 9.6,1.84 9.18,3H5A2,2 0 0,0 3,5V19A2,2 0 0,0 5,21H19A2,2 0 0,0 21,19V5A2,2 0 0,0 19,3M12,3A1,1 0 0,1 13,4A1,1 0 0,1 12,5A1,1 0 0,1 11,4A1,1 0 0,1 12,3
+
+$mol_icon_clipboard_outline $mol_icon path \M19,3H14.82C14.4,1.84 13.3,1 12,1C10.7,1 9.6,1.84 9.18,3H5A2,2 0 0,0 3,5V19A2,2 0 0,0 5,21H19A2,2 0 0,0 21,19V5A2,2 0 0,0 19,3M12,3A1,1 0 0,1 13,4A1,1 0 0,1 12,5A1,1 0 0,1 11,4A1,1 0 0,1 12,3M7,7H17V5H19V19H5V5H7V7Z
+
+$mol_button_copy $mol_button_minor
+	blobs /$mol_blob
+		<= text_blob? $mol_blob /
+			/BlobPart <= text <= title
+			* type \text/plain
+		<= html_blob? $mol_blob /
+			/BlobPart <= html \
+			* type \text/html
+	data *
+	sub /
+		<= Icon $mol_icon_clipboard_outline
+		<= title \
+
+
+$mol_text_code $mol_stack
+	attr *
+		^
+		mol_text_code_sidebar_showed <= sidebar_showed false
+	text \
+	text_lines /string
+	find_pos* null
+	uri_base \
+	sub /
+		<= Rows $mol_list
+			render_visible_only <= render_visible_only false
+			rows <= rows /
+				<= Row*0 $mol_text_code_row
+					numb_showed <= sidebar_showed
+					numb <= row_numb* 0
+					text <= row_text* \
+					syntax <= syntax null
+					uri_resolve* <= uri_resolve* \
+					highlight <= highlight \
+		<= Copy $mol_button_copy
+			hint @ \Copy whole code
+			text <= text_export \
+
+$mol_textarea $mol_stack
+	attr *
+		^
+		mol_textarea_clickable <= clickable? false
+		mol_textarea_sidebar_showed <= sidebar_showed false
+	event *
+		keydown?event <=> press?event null
+		pointermove?event <=> hover?event null
+	sub /
+		<= Edit $mol_textarea_edit
+			value? <=> value? \
+			hint <= hint \ 
+			enabled <= enabled true
+			spellcheck <= spellcheck true
+			length_max <= length_max +Infinity
+			selection? <=> selection? /number
+			bring => bring
+			submit? <=> submit? null
+			submit_with_ctrl <= submit_with_ctrl true
+		<= View $mol_text_code
+			text <= value
+			render_visible_only false
+			row_numb* <= row_numb* 0
+			sidebar_showed <= sidebar_showed
+			highlight <= highlight \
+	symbols_alt *string
+		comma \<
+		period \>
+		dash \−
+		equals \≈
+		graveAccent \́
+		forwardSlash \÷
+		E \€
+		V \✔
+		X \×
+		C \©
+		P \§
+		H \₽
+		key0 \°
+		key8 \•
+		key2 \@
+		key3 \#
+		key4 \$
+		key6 \^
+		key7 \&
+		bracketOpen \[
+		bracketClose \]
+		slashBack \|
+	symbols_alt_ctrl *string
+		space \ 
+	symbols_alt_shift *string
+		V \✅
+		X \❌
+		O \⭕
+		key1 \❗
+		key4 \💲
+		key7 \❓
+		comma \«
+		period \»
+		semicolon \“
+		quoteSingle \”
+		dash \—
+		equals \≠
+		graveAccent \̱
+		bracketOpen \{
+		bracketClose \}
+
+$mol_textarea_edit $mol_string
+	dom_name \textarea
+	enter \enter
+	field *
+		^
+		scrollTop 0
+
+$optimade_tmdne_card $optimade_tmdne_swipe
+	allowed <= loaded false
+	content /
+		<= Card_float $mol_view
+			attr *
+				loaded <= loaded
+			sub / <= Card_content $mol_view
+				attr *
+					card_position <= card_position \
+				sub /
+					<= Name $optimade_tmdne_html_view
+						html <= name \
+					<= Question $mol_paragraph
+						title \Do you think it's synthesizable?
+					<= Why_label $mol_view
+						sub /
+							<= Why_title $mol_paragraph
+								title \Why?
+							<= Why_optinal $mol_paragraph
+								title \(optinal)
+					<= Why $mol_textarea
+						value? <=> why? \
+
+$optimade_tmdne_app $mol_view
+	title \This material does not exist
+	number? 1
+	plugins /
+		<= Theme $mol_theme_auto
+	auto /
+		<= update
+	rotating? false
+	number_swiped? 0
+	number_prefetch? 0
+	sub /
+		<= Player $optimade_cifplayer_player
+			fullscreen? => player_fullscreen?
+			attr *
+				fullscreen <= player_fullscreen?
+				card_holding <= card_holding
+			data <= json null
+			Fullscreen null
+			Overlays null
+			event *
+				pointerdown? <=> player_pointerdown? null
+				pointerup? <=> player_pointerup? null
+		<= Head_space $mol_view
+			sub /
+				<= Head_card $mol_list
+					sub /
+						<= Head_title $mol_paragraph
+							title \Does this material exist?
+		<= Prediction $mol_list
+			attr *
+				rotating <= rotating
+			sub <= params /
+				<= Param* $mol_view
+					sub /
+						<= Param_name* $mol_paragraph
+							minimal_height 16
+							title <= param_name* \
+						<= Param_symbol_html* $optimade_tmdne_html_view
+							html <= param_symbol* \
+						\=
+						<= Param_value* $mol_view
+							minimal_height 16
+							sub /
+								<= param_value* \
+								<= Param_unit* $optimade_tmdne_html_view
+									html <= param_unit* \
+								<= Param_mae* $mol_view
+									sub /
+										\(±
+										<= param_mae* \
+										<= Param_mae_unit* $optimade_tmdne_html_view
+											html <= param_unit* \
+										\)
+		<= Foot $mol_view
+			attr *
+				rotating <= rotating
+			sub /
+				<= Hint_no $mol_button_minor
+					title \ᐊ No
+					click? <=> click_no? null
+				<= Hint_yes $mol_button_minor
+					title \Yes ᐅ
+					click? <=> click_yes? null
+				^ cards / <= Card* $optimade_tmdne_card
+					name <= card_name* \
+					loaded <= card_loaded* false
+					why? <=> why*? \
+					pointer_holding? <=> card_holding? false
+					on_swiped <= update null
+					swipe_to_right => swipe_to_right*
+					swipe_to_left => swipe_to_left*
