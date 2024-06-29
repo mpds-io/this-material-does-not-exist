@@ -10084,12 +10084,6 @@ var $;
 		passed(){
 			return "";
 		}
-		passed_left(){
-			return false;
-		}
-		passed_right(){
-			return false;
-		}
 		swiped_to(next){
 			if(next !== undefined) return next;
 			return "";
@@ -10100,10 +10094,7 @@ var $;
 		swipe_to_left(){
 			return null;
 		}
-		on_swiped(){
-			return null;
-		}
-		reset(){
+		move_to_middle(){
 			return null;
 		}
 		x(next){
@@ -10795,15 +10786,15 @@ var $;
             }
             pointerup(next) {
                 const speed = this.x() / ((new $mol_time_moment).valueOf() - this.start_time);
-                if (this.passed_right() || speed > this.speed_threshold())
+                if ((this.passed() == 'right') || speed > this.speed_threshold())
                     this.swipe_to_right();
-                else if (this.passed_left() || speed < (-this.speed_threshold()))
+                else if ((this.passed() == 'left') || speed < (-this.speed_threshold()))
                     this.swipe_to_left();
                 else
-                    this.reset();
+                    this.move_to_middle();
                 this.pointer_holding(false);
             }
-            reset() {
+            move_to_middle() {
                 this.transition('left 0.5s');
                 this.swiped_to('');
                 this.x(0);
@@ -10811,28 +10802,20 @@ var $;
             swipe_to_right() {
                 this.transition('left 0.5s');
                 this.swiped_to('right');
-                this.on_swiped();
                 this.x(300);
             }
             swipe_to_left() {
                 this.transition('left 0.5s');
                 this.swiped_to('left');
-                this.on_swiped();
                 this.x(-300);
             }
-            reset_hard() {
-                this.transition('');
-                this.reset();
-            }
-            passed_left() {
-                return this.x() < (-this.left_threshold());
-            }
-            passed_right() {
-                return this.x() > this.right_threshold();
-            }
             passed() {
-                return this.passed_left() ? 'left' :
-                    this.passed_right() ? 'right' : '';
+                const x = this.x();
+                if (x < (-this.left_threshold()))
+                    return 'left';
+                if (x > this.right_threshold())
+                    return 'right';
+                return '';
             }
         }
         __decorate([
@@ -10841,6 +10824,9 @@ var $;
         __decorate([
             $mol_mem
         ], $optimade_tmdne_swipe.prototype, "left", null);
+        __decorate([
+            $mol_mem
+        ], $optimade_tmdne_swipe.prototype, "passed", null);
         $$.$optimade_tmdne_swipe = $optimade_tmdne_swipe;
     })($$ = $.$$ || ($.$$ = {}));
 })($ || ($ = {}));
@@ -11880,14 +11866,14 @@ var $;
 			(obj.title) = () => ("Why?");
 			return obj;
 		}
-		Why_optinal(){
+		Why_optional(){
 			const obj = new this.$.$mol_paragraph();
-			(obj.title) = () => ("(optinal)");
+			(obj.title) = () => ("(optional)");
 			return obj;
 		}
 		Why_label(){
 			const obj = new this.$.$mol_view();
-			(obj.sub) = () => ([(this?.Why_title()), (this?.Why_optinal())]);
+			(obj.sub) = () => ([(this?.Why_title()), (this?.Why_optional())]);
 			return obj;
 		}
 		why(next){
@@ -11926,7 +11912,7 @@ var $;
 	($mol_mem(($.$optimade_tmdne_card.prototype), "Name"));
 	($mol_mem(($.$optimade_tmdne_card.prototype), "Question"));
 	($mol_mem(($.$optimade_tmdne_card.prototype), "Why_title"));
-	($mol_mem(($.$optimade_tmdne_card.prototype), "Why_optinal"));
+	($mol_mem(($.$optimade_tmdne_card.prototype), "Why_optional"));
 	($mol_mem(($.$optimade_tmdne_card.prototype), "Why_label"));
 	($mol_mem(($.$optimade_tmdne_card.prototype), "why"));
 	($mol_mem(($.$optimade_tmdne_card.prototype), "Why"));
@@ -12043,7 +12029,7 @@ var $;
             Why_label: {
                 gap: '0.5rem',
             },
-            Why_optinal: {
+            Why_optional: {
                 color: $mol_theme.shade,
                 font: {
                     style: 'italic',
@@ -12058,6 +12044,9 @@ var $;
 		Theme(){
 			const obj = new this.$.$mol_theme_auto();
 			return obj;
+		}
+		update(){
+			return null;
 		}
 		player_fullscreen(next){
 			return (this?.Player()?.fullscreen(next));
@@ -12102,7 +12091,7 @@ var $;
 		}
 		Param_name(id){
 			const obj = new this.$.$mol_paragraph();
-			(obj.minimal_height) = () => (16);
+			(obj.minimal_height) = () => (24);
 			(obj.title) = () => ((this?.param_name(id)));
 			return obj;
 		}
@@ -12145,7 +12134,7 @@ var $;
 		}
 		Param_value(id){
 			const obj = new this.$.$mol_view();
-			(obj.minimal_height) = () => (16);
+			(obj.minimal_height) = () => (24);
 			(obj.sub) = () => ([
 				(this?.param_value(id)), 
 				(this?.Param_unit(id)), 
@@ -12206,8 +12195,9 @@ var $;
 			if(next !== undefined) return next;
 			return false;
 		}
-		update(){
-			return null;
+		swiped_to(id, next){
+			if(next !== undefined) return next;
+			return "";
 		}
 		swipe_to_right(id){
 			return (this?.Card(id)?.swipe_to_right());
@@ -12221,7 +12211,7 @@ var $;
 			(obj.loaded) = () => ((this?.card_loaded(id)));
 			(obj.why) = (next) => ((this?.why(id, next)));
 			(obj.pointer_holding) = (next) => ((this?.card_holding(next)));
-			(obj.on_swiped) = () => ((this?.update()));
+			(obj.swiped_to) = (next) => ((this?.swiped_to(id, next)));
 			return obj;
 		}
 		cards(){
@@ -12238,7 +12228,7 @@ var $;
 			return obj;
 		}
 		title(){
-			return "This material does not exist";
+			return "This Material Does Not Exist?";
 		}
 		number(next){
 			if(next !== undefined) return next;
@@ -12292,6 +12282,7 @@ var $;
 	($mol_mem(($.$optimade_tmdne_app.prototype), "Hint_yes"));
 	($mol_mem_key(($.$optimade_tmdne_app.prototype), "why"));
 	($mol_mem(($.$optimade_tmdne_app.prototype), "card_holding"));
+	($mol_mem_key(($.$optimade_tmdne_app.prototype), "swiped_to"));
 	($mol_mem_key(($.$optimade_tmdne_app.prototype), "Card"));
 	($mol_mem(($.$optimade_tmdne_app.prototype), "Foot"));
 	($mol_mem(($.$optimade_tmdne_app.prototype), "number"));
@@ -12395,6 +12386,22 @@ var $;
             click_yes() {
                 this.swipe_to_right(this.number());
             }
+            swiped_to(id, next) {
+                const vote = next == 'left' ? 0 : next == 'right' ? 1 : undefined;
+                if (vote !== undefined) {
+                    this.update();
+                    this.$.$mol_fetch.success('https://crus.absolidix.com', {
+                        method: 'post',
+                        headers: {
+                            "Content-Type": "application/json",
+                        },
+                        body: JSON.stringify({
+                            id, comment: this.why(id), vote
+                        }),
+                    });
+                }
+                return next ?? '';
+            }
         }
         __decorate([
             $mol_mem_key
@@ -12438,6 +12445,9 @@ var $;
         __decorate([
             $mol_mem_key
         ], $optimade_tmdne_app.prototype, "param_symbol", null);
+        __decorate([
+            $mol_mem_key
+        ], $optimade_tmdne_app.prototype, "swiped_to", null);
         $$.$optimade_tmdne_app = $optimade_tmdne_app;
         function random_int(min, max) {
             return Math.floor(Math.random() * (max - min + 1)) + min;
@@ -12465,6 +12475,13 @@ var $;
             return html ?? '';
         }
     })($$ = $.$$ || ($.$$ = {}));
+})($ || ($ = {}));
+
+;
+"use strict";
+var $;
+(function ($) {
+    $mol_style_attach("optimade/tmdne/app/app.view.css", "@media all and (max-width: 900px) {\n\t[optimade_tmdne_app_param_mae], [optimade_tmdne_app_param_name] { display: none; }\n}\n");
 })($ || ($ = {}));
 
 ;
@@ -12507,6 +12524,8 @@ var $;
             Head_card: {
                 pointerEvents: 'auto',
                 margin: 'auto',
+                width: '35%',
+                textAlign: 'center',
             },
             Head_title: {
                 userSelect: 'none',
@@ -12584,10 +12603,12 @@ var $;
             Hint_no: {
                 pointerEvents: 'auto',
                 color: '#ff6666',
+                zIndex: 10,
             },
             Hint_yes: {
                 pointerEvents: 'auto',
                 color: $mol_theme.current,
+                zIndex: 10,
             },
         });
     })($$ = $.$$ || ($.$$ = {}));

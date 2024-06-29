@@ -621,13 +621,10 @@ $optimade_tmdne_swipe $mol_view
 	right_threshold <= threshold 60
 	left_threshold <= threshold
 	passed \
-	passed_left false
-	passed_right false
 	swiped_to? \
 	swipe_to_right null
 	swipe_to_left null
-	on_swiped null
-	reset null
+	move_to_middle null
 	x? 0
 	sub /
 		<= Float $mol_view
@@ -808,18 +805,18 @@ $optimade_tmdne_card $optimade_tmdne_swipe
 						sub /
 							<= Why_title $mol_paragraph
 								title \Why?
-							<= Why_optinal $mol_paragraph
-								title \(optinal)
+							<= Why_optional $mol_paragraph
+								title \(optional)
 					<= Why $mol_textarea
 						value? <=> why? \
 
 $optimade_tmdne_app $mol_view
-	title \This material does not exist
+	title \This Material Does Not Exist?
 	number? 1
 	plugins /
 		<= Theme $mol_theme_auto
 	auto /
-		<= update
+		<= update null
 	rotating? false
 	number_swiped? 0
 	number_prefetch? 0
@@ -848,13 +845,13 @@ $optimade_tmdne_app $mol_view
 				<= Param* $mol_view
 					sub /
 						<= Param_name* $mol_paragraph
-							minimal_height 16
+							minimal_height 24
 							title <= param_name* \
 						<= Param_symbol_html* $optimade_tmdne_html_view
 							html <= param_symbol* \
 						\=
 						<= Param_value* $mol_view
-							minimal_height 16
+							minimal_height 24
 							sub /
 								<= param_value* \
 								<= Param_unit* $optimade_tmdne_html_view
@@ -881,6 +878,6 @@ $optimade_tmdne_app $mol_view
 					loaded <= card_loaded* false
 					why? <=> why*? \
 					pointer_holding? <=> card_holding? false
-					on_swiped <= update null
+					swiped_to? <=> swiped_to*? \
 					swipe_to_right => swipe_to_right*
 					swipe_to_left => swipe_to_left*
