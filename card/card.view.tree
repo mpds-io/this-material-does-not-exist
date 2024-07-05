@@ -8,8 +8,11 @@ $optimade_tmdne_card $optimade_tmdne_swipe
 				attr *
 					card_position <= card_position \
 				sub /
-					<= Name $optimade_tmdne_html_view
-						html <= name \
+					<= Name $mol_link
+						uri <= json_link \
+						sub /
+							<= Name_content $optimade_tmdne_html_view
+								html <= name \
 					<= Question $mol_paragraph
 						title \Do you think it's synthesizable?
 					<= Why_label $mol_view
