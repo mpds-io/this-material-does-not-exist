@@ -316,6 +316,7 @@ $optimade_cifplayer_player $mol_view
 		<= Theme $mol_theme_auto
 	-
 	auto /
+		<= external_theme_auto null
 		<= dir_light null
 		<= ambient_light null
 		^ atom_boxes /
@@ -405,7 +406,7 @@ $optimade_cifplayer_player $mol_view
 						<= Zoom_down $mol_button_minor
 							click? <=> zoom_down? null
 							sub / <= Zoom_down_icon $mol_icon_magnify_minus_outline
-				<= Lights $mol_lights_toggle
+				^ lights_toggle / <= Lights $mol_lights_toggle
 		<= Overlays $mol_view
 			sub <= overlays_sub /
 				<= Switch_overlay $mol_switch
@@ -545,19 +546,6 @@ $mol_html_view_heading $mol_paragraph
 		^
 		mol_html_view_heading <= level 1
 
-$optimade_tmdne_html_view $mol_html_view
-	minimal_height 16
-	Subscript* $mol_view
-		dom_name \sub
-		sub <= content*
-	Superscript* $mol_view
-		dom_name \sup
-		sub <= content*
-	Text* $mol_dimmer
-		minimal_height 16
-		needle <= highlight
-		haystack <= text*
-
 $mol_touch $mol_plugin
 	start_zoom? 0
 	start_distance? 0
@@ -624,6 +612,8 @@ $optimade_tmdne_swipe $mol_view
 	speed_threshold 1
 	right_threshold <= threshold 60
 	left_threshold <= threshold
+	swipe_distance 300
+	transition_smooth \left 0.5s
 	passed \
 	swiped_to? \
 	swipe_to_right null
@@ -636,6 +626,7 @@ $optimade_tmdne_swipe $mol_view
 			style *
 				left <= left \0px
 				transition <= transition? \
+	
 	pointer_holding? false
 	event *
 		^
@@ -801,7 +792,8 @@ $optimade_tmdne_card $optimade_tmdne_swipe
 				attr *
 					card_position <= card_position \
 				sub /
-					<= Name $optimade_tmdne_html_view
+					<= Name $mol_html_view
+						minimal_height 24
 						html <= name \
 					<= Question $mol_paragraph
 						title \Do you think it's synthesizable?
@@ -849,22 +841,23 @@ $optimade_tmdne_app $mol_view
 				<= Param* $mol_view
 					sub /
 						<= Param_name* $mol_paragraph
-							minimal_height 24
 							title <= param_name* \
-						<= Param_symbol_html* $optimade_tmdne_html_view
+						<= Param_symbol* $mol_html_view
+							minimal_height <= param_min_height 24
 							html <= param_symbol* \
 						\=
 						<= Param_value* $mol_view
-							minimal_height 24
 							sub /
 								<= param_value* \
-								<= Param_unit* $optimade_tmdne_html_view
+								<= Param_unit* $mol_html_view
+									minimal_height <= param_min_height
 									html <= param_unit* \
 								<= Param_mae* $mol_view
 									sub /
 										\(±
 										<= param_mae* \
-										<= Param_mae_unit* $optimade_tmdne_html_view
+										<= Param_mae_unit* $mol_html_view
+											minimal_height <= param_min_height
 											html <= param_unit* \
 										\)
 		<= Foot $mol_view

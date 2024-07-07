@@ -6390,6 +6390,9 @@ var $;
 			const obj = new this.$.$mol_theme_auto();
 			return obj;
 		}
+		external_theme_auto(){
+			return null;
+		}
 		dir_light(){
 			return null;
 		}
@@ -6692,12 +6695,15 @@ var $;
 			const obj = new this.$.$mol_lights_toggle();
 			return obj;
 		}
+		lights_toggle(){
+			return [(this?.Lights())];
+		}
 		Tools(){
 			const obj = new this.$.$mol_view();
 			(obj.sub) = () => ([
 				(this?.Fullscreen()), 
 				(this?.Zoom_section()), 
-				(this?.Lights())
+				...(this.lights_toggle())
 			]);
 			return obj;
 		}
@@ -6784,6 +6790,7 @@ var $;
 		}
 		auto(){
 			return [
+				(this?.external_theme_auto()), 
 				(this?.dir_light()), 
 				(this?.ambient_light()), 
 				...(this.atom_boxes()), 
@@ -8206,80 +8213,6 @@ var $;
 })($ || ($ = {}));
 
 ;
-	($.$optimade_tmdne_html_view) = class $optimade_tmdne_html_view extends ($.$mol_html_view) {
-		minimal_height(){
-			return 16;
-		}
-		Subscript(id){
-			const obj = new this.$.$mol_view();
-			(obj.dom_name) = () => ("sub");
-			(obj.sub) = () => ((this?.content(id)));
-			return obj;
-		}
-		Superscript(id){
-			const obj = new this.$.$mol_view();
-			(obj.dom_name) = () => ("sup");
-			(obj.sub) = () => ((this?.content(id)));
-			return obj;
-		}
-		Text(id){
-			const obj = new this.$.$mol_dimmer();
-			(obj.minimal_height) = () => (16);
-			(obj.needle) = () => ((this?.highlight()));
-			(obj.haystack) = () => ((this?.text(id)));
-			return obj;
-		}
-	};
-	($mol_mem_key(($.$optimade_tmdne_html_view.prototype), "Subscript"));
-	($mol_mem_key(($.$optimade_tmdne_html_view.prototype), "Superscript"));
-	($mol_mem_key(($.$optimade_tmdne_html_view.prototype), "Text"));
-
-
-;
-"use strict";
-
-;
-"use strict";
-var $;
-(function ($) {
-    var $$;
-    (function ($$) {
-        class $optimade_tmdne_html_view extends $.$optimade_tmdne_html_view {
-            views(node) {
-                if (node.nodeName == 'SUB')
-                    return [this.Subscript(node)];
-                if (node.nodeName == 'SUP')
-                    return [this.Superscript(node)];
-                return super.views(node);
-            }
-        }
-        $$.$optimade_tmdne_html_view = $optimade_tmdne_html_view;
-    })($$ = $.$$ || ($.$$ = {}));
-})($ || ($ = {}));
-
-;
-"use strict";
-var $;
-(function ($) {
-    $mol_style_define($optimade_tmdne_html_view, {
-        Subscript: {
-            font: {
-                size: '.75em',
-            },
-            position: 'relative',
-            bottom: '-0.5em',
-        },
-        Superscript: {
-            font: {
-                size: '.75em',
-            },
-            position: 'relative',
-            top: '-0.25em',
-        },
-    });
-})($ || ($ = {}));
-
-;
 "use strict";
 var $;
 (function ($) {
@@ -8877,6 +8810,12 @@ var $;
 		}
 		left_threshold(){
 			return (this?.threshold());
+		}
+		swipe_distance(){
+			return 300;
+		}
+		transition_smooth(){
+			return "left 0.5s";
 		}
 		passed(){
 			return "";
@@ -9592,19 +9531,19 @@ var $;
                 this.pointer_holding(false);
             }
             move_to_middle() {
-                this.transition('left 0.5s');
+                this.transition(this.transition_smooth());
                 this.swiped_to('');
                 this.x(0);
             }
             swipe_to_right() {
-                this.transition('left 0.5s');
+                this.transition(this.transition_smooth());
                 this.swiped_to('right');
-                this.x(300);
+                this.x(this.swipe_distance());
             }
             swipe_to_left() {
-                this.transition('left 0.5s');
+                this.transition(this.transition_smooth());
                 this.swiped_to('left');
-                this.x(-300);
+                this.x(-this.swipe_distance());
             }
             passed() {
                 const x = this.x();
@@ -10649,7 +10588,8 @@ var $;
 			return "";
 		}
 		Name(){
-			const obj = new this.$.$optimade_tmdne_html_view();
+			const obj = new this.$.$mol_html_view();
+			(obj.minimal_height) = () => (24);
 			(obj.html) = () => ((this?.name()));
 			return obj;
 		}
@@ -10759,12 +10699,11 @@ var $;
                 background: {
                     color: $mol_theme.back,
                 },
-                bottom: '-10rem',
-                position: 'relative',
-                transition: 'bottom 0.7s',
+                transform: 'translateY(110%)',
+                transition: 'transform 0.7s',
                 '[loaded]': {
                     'true': {
-                        bottom: 0,
+                        transform: 'none',
                     },
                 },
                 border: {
@@ -10888,15 +10827,18 @@ var $;
 		}
 		Param_name(id){
 			const obj = new this.$.$mol_paragraph();
-			(obj.minimal_height) = () => (24);
 			(obj.title) = () => ((this?.param_name(id)));
 			return obj;
+		}
+		param_min_height(){
+			return 24;
 		}
 		param_symbol(id){
 			return "";
 		}
-		Param_symbol_html(id){
-			const obj = new this.$.$optimade_tmdne_html_view();
+		Param_symbol(id){
+			const obj = new this.$.$mol_html_view();
+			(obj.minimal_height) = () => ((this?.param_min_height()));
 			(obj.html) = () => ((this?.param_symbol(id)));
 			return obj;
 		}
@@ -10907,7 +10849,8 @@ var $;
 			return "";
 		}
 		Param_unit(id){
-			const obj = new this.$.$optimade_tmdne_html_view();
+			const obj = new this.$.$mol_html_view();
+			(obj.minimal_height) = () => ((this?.param_min_height()));
 			(obj.html) = () => ((this?.param_unit(id)));
 			return obj;
 		}
@@ -10915,7 +10858,8 @@ var $;
 			return "";
 		}
 		Param_mae_unit(id){
-			const obj = new this.$.$optimade_tmdne_html_view();
+			const obj = new this.$.$mol_html_view();
+			(obj.minimal_height) = () => ((this?.param_min_height()));
 			(obj.html) = () => ((this?.param_unit(id)));
 			return obj;
 		}
@@ -10931,7 +10875,6 @@ var $;
 		}
 		Param_value(id){
 			const obj = new this.$.$mol_view();
-			(obj.minimal_height) = () => (24);
 			(obj.sub) = () => ([
 				(this?.param_value(id)), 
 				(this?.Param_unit(id)), 
@@ -10943,7 +10886,7 @@ var $;
 			const obj = new this.$.$mol_view();
 			(obj.sub) = () => ([
 				(this?.Param_name(id)), 
-				(this?.Param_symbol_html(id)), 
+				(this?.Param_symbol(id)), 
 				"=", 
 				(this?.Param_value(id))
 			]);
@@ -11066,7 +11009,7 @@ var $;
 	($mol_mem(($.$optimade_tmdne_app.prototype), "Head_card"));
 	($mol_mem(($.$optimade_tmdne_app.prototype), "Head_space"));
 	($mol_mem_key(($.$optimade_tmdne_app.prototype), "Param_name"));
-	($mol_mem_key(($.$optimade_tmdne_app.prototype), "Param_symbol_html"));
+	($mol_mem_key(($.$optimade_tmdne_app.prototype), "Param_symbol"));
 	($mol_mem_key(($.$optimade_tmdne_app.prototype), "Param_unit"));
 	($mol_mem_key(($.$optimade_tmdne_app.prototype), "Param_mae_unit"));
 	($mol_mem_key(($.$optimade_tmdne_app.prototype), "Param_mae"));
@@ -11517,7 +11460,7 @@ var $;
                     weight: 700,
                 },
             },
-            Param_symbol_html: {
+            Param_symbol: {
                 flex: {
                     direction: 'row',
                 },

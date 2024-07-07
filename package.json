@@ -189,7 +189,6 @@
     "$mol_check_list",
     "$mol_state_session",
     "$mol_card",
-    "$optimade_tmdne_html",
     "$mol_html_view",
     "$mol_html",
     "$mol_link_iconed",
