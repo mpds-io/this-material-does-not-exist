@@ -85,7 +85,7 @@ namespace $.$$ {
 			},
 		},
 
-		Param_symbol_html: {
+		Param_symbol: {
 			flex: {
 				direction: 'row',
 			},

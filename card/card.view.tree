@@ -12,6 +12,7 @@ $optimade_tmdne_card $optimade_tmdne_swipe
 						uri <= json_link \
 						sub /
 							<= Name_content $optimade_tmdne_html_view
+                minimal_height 24
 								html <= name \
 					<= Question $mol_paragraph
 						title \Do you think it's synthesizable?

@@ -28,12 +28,11 @@ namespace $.$$ {
 			background: {
 				color: $mol_theme.back,
 			},
-			bottom: '-10rem',
-			position: 'relative',
-			transition: 'bottom 0.7s',
+			transform: 'translateY(110%)',
+			transition: 'transform 0.7s',
 			'[loaded]': {
 				'true': {
-					bottom: 0,
+					transform: 'none',
 				},
 			},
 			border: {

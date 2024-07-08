@@ -7,6 +7,8 @@ $optimade_tmdne_swipe $mol_view
 	speed_threshold 1
 	right_threshold <= threshold 60
 	left_threshold <= threshold
+	swipe_distance 300
+	transition_smooth \left 0.5s
 	passed \
 	swiped_to? \
 	swipe_to_right null
@@ -19,6 +21,7 @@ $optimade_tmdne_swipe $mol_view
 			style *
 				left <= left \0px
 				transition <= transition? \
+	
 	pointer_holding? false
 	event *
 		^

@@ -36,21 +36,21 @@ namespace $.$$ {
 		}
 
 		move_to_middle() {
-			this.transition( 'left 0.5s' )
+			this.transition( this.transition_smooth() )
 			this.swiped_to('')
 			this.x( 0 )
 		}
 
 		swipe_to_right() {
-			this.transition( 'left 0.5s' )
+			this.transition( this.transition_smooth() )
 			this.swiped_to( 'right' )
-			this.x( 300 )
+			this.x( this.swipe_distance() )
 		}
 
 		swipe_to_left() {
-			this.transition( 'left 0.5s' )
+			this.transition( this.transition_smooth() )
 			this.swiped_to( 'left' )
-			this.x( -300 )
+			this.x( - this.swipe_distance() )
 		}
 
 		@ $mol_mem
