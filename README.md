@@ -7,7 +7,7 @@ Currently uses [cifplayer](https://github.com/tilde-lab/cifplayer) and data from
 paper](https://github.com/google-deepmind/materials_discovery).
 The physical properties prediction is done dynamically by [MPDS ML server](https://mpds.io/ml).
 
-![GNome_d582d1239f_screenshot](https://github.com/mpds-io/this-material-does-not-exist/main/d582d1239f.png)
+![GNome_d582d1239f_screenshot](https://raw.githubusercontent.com/mpds-io/this-material-does-not-exist/main/d582d1239f.png)
 
 
 ## Build
