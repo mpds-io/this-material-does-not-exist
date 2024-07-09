@@ -793,7 +793,7 @@ $optimade_tmdne_card $optimade_tmdne_swipe
 					card_position <= card_position \
 				sub /
 					<= Name $mol_html_view
-						minimal_height 24
+						minimal_height 22
 						html <= name \
 					<= Question $mol_paragraph
 						title \Do you think it's synthesizable?
@@ -843,7 +843,7 @@ $optimade_tmdne_app $mol_view
 						<= Param_name* $mol_paragraph
 							title <= param_name* \
 						<= Param_symbol* $mol_html_view
-							minimal_height <= param_min_height 24
+							minimal_height <= param_min_height 22
 							html <= param_symbol* \
 						\=
 						<= Param_value* $mol_view
@@ -878,3 +878,25 @@ $optimade_tmdne_app $mol_view
 					swiped_to? <=> swiped_to*? \
 					swipe_to_right => swipe_to_right*
 					swipe_to_left => swipe_to_left*
+		<= Acks $mol_view
+			sub /
+				<= Acks_a $mol_link
+					uri \https://www.optimade.org
+					sub /
+						\Powered by Optimade
+				<= Acks_b $mol_link
+					uri \https://github.com/tilde-lab/cifplayer
+					sub /
+						\and cifplayer
+				<= Acks_c $mol_link
+					uri \https://github.com/google-deepmind/materials_discovery
+					sub /
+						\using the GNome dataset
+				<= Acks_d $mol_link
+					uri \https://github.com/ml-evs/this-material-does-not-exist
+					sub /
+						\developed on GitHub
+				<= Acks_e $mol_link
+					uri \https://thispersondoesnotexist.com
+					sub /
+						\and inspired by...
