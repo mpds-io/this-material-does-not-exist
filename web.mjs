@@ -12365,9 +12365,13 @@ var $;
                 $mol_wire_solid();
                 const structure = JSON.stringify(this.fetch_by_number(number));
                 const params = new URLSearchParams({ structure });
-                const url = `https://labs.mpds.io/predict?${params.toString()}`;
+                const url = `https://labs.mpds.io/predict`;
                 const prediction = this.$.$mol_wire_sync(this).$.$mol_fetch.success(url, {
                     method: 'post',
+                    headers: {
+                        "Content-Type": "application/x-www-form-urlencoded",
+                    },
+                    body: params.toString(),
                 }).json() ?? {};
                 return prediction;
             }
