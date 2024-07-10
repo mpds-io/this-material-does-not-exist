@@ -7,7 +7,8 @@ namespace $.$$ {
 		position: 'fixed',
 		left: '50%',
 		transform: 'translateX(-50%)',
-		bottom: 0,
+		bottom: '1.6rem',
+		zIndex: 2,
 
 		// position: 'relative',
 		// left: 0,
@@ -28,7 +29,7 @@ namespace $.$$ {
 			background: {
 				color: $mol_theme.back,
 			},
-			transform: 'translateY(110%)',
+			transform: 'translateY(125%)',
 			transition: 'transform 0.7s',
 			'[loaded]': {
 				'true': {

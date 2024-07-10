@@ -47,6 +47,9 @@ namespace $.$$ {
 			justify: {
 				content: 'center',
 			},
+			font: {
+				size: '1.2rem',
+			},
 		},
 
 		Prediction: {
@@ -113,7 +116,7 @@ namespace $.$$ {
 			},
 			width: '24rem',
 			position: 'absolute',
-			bottom: '4rem',
+			bottom: '5.3rem',
 
 			pointerEvents: 'none',
 			transition: 'opacity 0.2s',
@@ -123,18 +126,24 @@ namespace $.$$ {
 					opacity: 0,
 				},
 			},
+			zIndex: 1,
 		},
 
 		Hint_no: {
 			pointerEvents: 'auto',
 			color: '#ff6666',
-			zIndex: 10,
 		},
 
 		Hint_yes: {
 			pointerEvents: 'auto',
 			color: $mol_theme.current,
-			zIndex: 10,
+		},
+
+		Acks: {
+			font: {
+				size: '0.7rem',
+			},
+			zIndex: 0,
 		},
 
 	} )

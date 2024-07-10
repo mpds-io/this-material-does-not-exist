@@ -1,6 +1,5 @@
 namespace $.$$ {
 	
-
 	export class $optimade_tmdne_swipe extends $.$optimade_tmdne_swipe {
 
 		@ $mol_mem
@@ -37,20 +36,20 @@ namespace $.$$ {
 
 		move_to_middle() {
 			this.transition( this.transition_smooth() )
-			this.swiped_to('')
 			this.x( 0 )
+			this.swiped_to('')
 		}
 
 		swipe_to_right() {
 			this.transition( this.transition_smooth() )
-			this.swiped_to( 'right' )
 			this.x( this.swipe_distance() )
+			this.swiped_to( 'right' )
 		}
 
 		swipe_to_left() {
 			this.transition( this.transition_smooth() )
-			this.swiped_to( 'left' )
 			this.x( - this.swipe_distance() )
+			this.swiped_to( 'left' )
 		}
 
 		@ $mol_mem
