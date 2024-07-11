@@ -41,7 +41,7 @@ namespace $.$$ {
 
 		@ $mol_mem_key
 		card_link( n: number ) {
-			let link = this.fetch_by_number( n )?.data[ 0 ]?.attributes?._gnome_material_id
+			const link = this.fetch_by_number( n )?.data[ 0 ]?.attributes?._gnome_material_id
 			return `https://optimade-gnome.odbx.science/v1/structures/data/gnome_data/by_id.zip/data/gnome_data/by_id/${link}.CIF`
 		}
 		
