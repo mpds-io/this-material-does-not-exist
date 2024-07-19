@@ -33,18 +33,23 @@ namespace $.$$ {
 		}
 
 		@ $mol_mem_key
-		card_info( n: number ) {
+		card_name( n: number ) {
 			const json = this.fetch_by_number( n )
 			let str = json?.data[ 0 ]?.attributes?.chemical_formula_reduced
-			let link_id = json?.data[ 0 ]?.attributes?._gnome_material_id
-			let link = `https://optimade-gnome.odbx.science/v1/structures/data/gnome_data/by_id.zip/data/gnome_data/by_id/${link_id}.CIF`
-			return formula_html( str ), link
+			return formula_html( str )
 		}
+
+		@ $mol_mem_key
+		card_link( n: number ) {
+			const link_id = this.fetch_by_number( n )?.data[ 0 ]?.id
+			return `https://optimade-gnome.odbx.science/v1/structures/${link_id}`
+		}
+		
 
 		@ $mol_mem_key
 		card_loaded( n: number ) {
 			try {
-				this.card_info( n )
+				this.card_name( n )
 				return this.number() === n
 			} catch (error) {
 				if( $mol_promise_like( error ) ) return false

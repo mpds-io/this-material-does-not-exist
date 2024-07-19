@@ -63,7 +63,8 @@ $optimade_tmdne_app $mol_view
 					title \Yes ᐅ
 					click? <=> click_yes? null
 				^ cards / <= Card* $optimade_tmdne_card
-					name, json_link <= card_info* \
+					name <= card_name* \
+					link <= card_link* \
 					loaded <= card_loaded* false
 					why? <=> why*? \
 					pointer_holding? <=> card_holding? false

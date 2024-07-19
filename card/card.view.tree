@@ -9,7 +9,7 @@ $optimade_tmdne_card $optimade_tmdne_swipe
 					card_position <= card_position \
 				sub /
 					<= Name $mol_link
-						uri <= json_link \
+						uri <= link \
 						sub /
 							<= Name_content $mol_html_view
 								minimal_height 22
