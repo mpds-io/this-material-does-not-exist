@@ -59,16 +59,26 @@ namespace $.$$ {
 			]
 		}
 
+		@ $mol_action
+		random_sample() {
+			return random_int( 1, 384937 )
+		}
+
+		@ $mol_mem
+		number( next?: number ): number {
+			return next ?? this.random_sample()
+		}
+
 		@ $mol_mem
 		number_prefetch( next?: number ): number {
-			return next ?? random_int( 1, 384937 )
+			return next ?? this.random_sample()
 		}
 
 		@ $mol_action
 		update() {
 			this.number_swiped( this.number() )
 			this.number( this.number_prefetch() )
-			const prefetch = random_int( 1, 384937 )
+			const prefetch = this.random_sample()
 			this.number_prefetch( prefetch )
 			$mol_wire_async( this ).predict_by_number( prefetch )
 		}
