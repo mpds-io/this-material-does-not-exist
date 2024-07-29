@@ -635,7 +635,12 @@ var $;
 var $;
 (function ($) {
     function $mol_promise_like(val) {
-        return val && typeof val === 'object' && 'then' in val && typeof val.then === 'function';
+        try {
+            return val && typeof val === 'object' && 'then' in val && typeof val.then === 'function';
+        }
+        catch {
+            return false;
+        }
     }
     $.$mol_promise_like = $mol_promise_like;
 })($ || ($ = {}));
@@ -6393,15 +6398,15 @@ var $;
 
 ;
 	($.$optimade_cifplayer_player) = class $optimade_cifplayer_player extends ($.$mol_view) {
-		spread_a(next){
+		translate_a(next){
 			if(next !== undefined) return next;
 			return 1;
 		}
-		spread_b(next){
+		translate_b(next){
 			if(next !== undefined) return next;
 			return 1;
 		}
-		spread_c(next){
+		translate_c(next){
 			if(next !== undefined) return next;
 			return 1;
 		}
@@ -6431,6 +6436,13 @@ var $;
 			return null;
 		}
 		overlay_changed(){
+			return null;
+		}
+		vibration_active(next){
+			if(next !== undefined) return next;
+			return false;
+		}
+		vibration_restart(){
 			return null;
 		}
 		scene(){
@@ -6572,67 +6584,67 @@ var $;
 		symlabel_visible(){
 			return [(this?.Symlabel())];
 		}
-		spread_cell_label(){
+		translate_cell_label(){
 			return "1×1×1";
 		}
-		Spread_label_a(){
+		Translate_label_a(){
 			const obj = new this.$.$mol_paragraph();
 			(obj.title) = () => ("a");
 			return obj;
 		}
-		spread_limit_a(){
+		translate_limit_a(){
 			return 1;
 		}
-		Spread_a(){
+		Translate_a(){
 			const obj = new this.$.$mol_number();
-			(obj.value) = (next) => ((this?.spread_a(next)));
+			(obj.value) = (next) => ((this?.translate_a(next)));
 			(obj.hint) = () => ("1");
 			(obj.value_min) = () => (1);
-			(obj.value_max) = () => ((this?.spread_limit_a()));
+			(obj.value_max) = () => ((this?.translate_limit_a()));
 			return obj;
 		}
-		Spread_label_b(){
+		Translate_label_b(){
 			const obj = new this.$.$mol_paragraph();
 			(obj.title) = () => ("b");
 			return obj;
 		}
-		spread_limit_b(){
+		translate_limit_b(){
 			return 1;
 		}
-		Spread_b(){
+		Translate_b(){
 			const obj = new this.$.$mol_number();
-			(obj.value) = (next) => ((this?.spread_b(next)));
+			(obj.value) = (next) => ((this?.translate_b(next)));
 			(obj.hint) = () => ("1");
 			(obj.value_min) = () => (1);
-			(obj.value_max) = () => ((this?.spread_limit_b()));
+			(obj.value_max) = () => ((this?.translate_limit_b()));
 			return obj;
 		}
-		Spread_label_c(){
+		Translate_label_c(){
 			const obj = new this.$.$mol_paragraph();
 			(obj.title) = () => ("c");
 			return obj;
 		}
-		spread_limit_c(){
+		translate_limit_c(){
 			return 1;
 		}
-		Spread_c(){
+		Translate_c(){
 			const obj = new this.$.$mol_number();
-			(obj.value) = (next) => ((this?.spread_c(next)));
+			(obj.value) = (next) => ((this?.translate_c(next)));
 			(obj.hint) = () => ("1");
 			(obj.value_min) = () => (1);
-			(obj.value_max) = () => ((this?.spread_limit_c()));
+			(obj.value_max) = () => ((this?.translate_limit_c()));
 			return obj;
 		}
-		Spread_cells(){
+		Translate_cells(){
 			const obj = new this.$.$mol_pick();
-			(obj.trigger_content) = () => ([(this?.spread_cell_label())]);
+			(obj.trigger_content) = () => ([(this?.translate_cell_label())]);
 			(obj.bubble_content) = () => ([
-				(this?.Spread_label_a()), 
-				(this?.Spread_a()), 
-				(this?.Spread_label_b()), 
-				(this?.Spread_b()), 
-				(this?.Spread_label_c()), 
-				(this?.Spread_c())
+				(this?.Translate_label_a()), 
+				(this?.Translate_a()), 
+				(this?.Translate_label_b()), 
+				(this?.Translate_b()), 
+				(this?.Translate_label_c()), 
+				(this?.Translate_c())
 			]);
 			return obj;
 		}
@@ -6654,7 +6666,7 @@ var $;
 			return [
 				(this?.Info()), 
 				...(this.symlabel_visible()), 
-				(this?.Spread_cells()), 
+				(this?.Translate_cells()), 
 				(this?.Center())
 			];
 		}
@@ -6794,14 +6806,18 @@ var $;
 		unvibrate(){
 			return null;
 		}
-		spread_cells(){
+		phonon(next){
+			if(next !== undefined) return next;
+			return null;
+		}
+		translate_cells(){
 			return [
-				(this?.spread_a()), 
-				(this?.spread_b()), 
-				(this?.spread_c())
+				(this?.translate_a()), 
+				(this?.translate_b()), 
+				(this?.translate_c())
 			];
 		}
-		spread_cells_limit(){
+		translate_cells_limit(){
 			return 50;
 		}
 		plugins(){
@@ -6816,7 +6832,9 @@ var $;
 				...(this.overlay_boxes()), 
 				(this?.cell_box()), 
 				(this?.axes_box()), 
-				(this?.overlay_changed())
+				(this?.overlay_changed()), 
+				(this?.vibration_active()), 
+				(this?.vibration_restart())
 			];
 		}
 		atom_box(id){
@@ -6870,10 +6888,11 @@ var $;
 			return {...(super.attr()), "fullscreen": (this?.fullscreen())};
 		}
 	};
-	($mol_mem(($.$optimade_cifplayer_player.prototype), "spread_a"));
-	($mol_mem(($.$optimade_cifplayer_player.prototype), "spread_b"));
-	($mol_mem(($.$optimade_cifplayer_player.prototype), "spread_c"));
+	($mol_mem(($.$optimade_cifplayer_player.prototype), "translate_a"));
+	($mol_mem(($.$optimade_cifplayer_player.prototype), "translate_b"));
+	($mol_mem(($.$optimade_cifplayer_player.prototype), "translate_c"));
 	($mol_mem(($.$optimade_cifplayer_player.prototype), "Theme"));
+	($mol_mem(($.$optimade_cifplayer_player.prototype), "vibration_active"));
 	($mol_mem(($.$optimade_cifplayer_player.prototype), "Three"));
 	($mol_mem(($.$optimade_cifplayer_player.prototype), "Descr_a"));
 	($mol_mem(($.$optimade_cifplayer_player.prototype), "Descr_b"));
@@ -6890,13 +6909,13 @@ var $;
 	($mol_mem(($.$optimade_cifplayer_player.prototype), "Sym_checks"));
 	($mol_mem(($.$optimade_cifplayer_player.prototype), "Sym_list"));
 	($mol_mem(($.$optimade_cifplayer_player.prototype), "Symlabel"));
-	($mol_mem(($.$optimade_cifplayer_player.prototype), "Spread_label_a"));
-	($mol_mem(($.$optimade_cifplayer_player.prototype), "Spread_a"));
-	($mol_mem(($.$optimade_cifplayer_player.prototype), "Spread_label_b"));
-	($mol_mem(($.$optimade_cifplayer_player.prototype), "Spread_b"));
-	($mol_mem(($.$optimade_cifplayer_player.prototype), "Spread_label_c"));
-	($mol_mem(($.$optimade_cifplayer_player.prototype), "Spread_c"));
-	($mol_mem(($.$optimade_cifplayer_player.prototype), "Spread_cells"));
+	($mol_mem(($.$optimade_cifplayer_player.prototype), "Translate_label_a"));
+	($mol_mem(($.$optimade_cifplayer_player.prototype), "Translate_a"));
+	($mol_mem(($.$optimade_cifplayer_player.prototype), "Translate_label_b"));
+	($mol_mem(($.$optimade_cifplayer_player.prototype), "Translate_b"));
+	($mol_mem(($.$optimade_cifplayer_player.prototype), "Translate_label_c"));
+	($mol_mem(($.$optimade_cifplayer_player.prototype), "Translate_c"));
+	($mol_mem(($.$optimade_cifplayer_player.prototype), "Translate_cells"));
 	($mol_mem(($.$optimade_cifplayer_player.prototype), "centered"));
 	($mol_mem(($.$optimade_cifplayer_player.prototype), "Center_icon"));
 	($mol_mem(($.$optimade_cifplayer_player.prototype), "Center"));
@@ -6921,6 +6940,7 @@ var $;
 	($mol_mem(($.$optimade_cifplayer_player.prototype), "data"));
 	($mol_mem(($.$optimade_cifplayer_player.prototype), "externals"));
 	($mol_mem(($.$optimade_cifplayer_player.prototype), "vibrate"));
+	($mol_mem(($.$optimade_cifplayer_player.prototype), "phonon"));
 
 
 ;
@@ -6965,19 +6985,19 @@ var $;
             Descr_c: {
                 color: $mol_style_func.vary('--color_c')
             },
-            Spread_label_a: {
+            Translate_label_a: {
                 color: $mol_style_func.vary('--color_a'),
                 padding: $mol_gap.text,
             },
-            Spread_label_b: {
+            Translate_label_b: {
                 color: $mol_style_func.vary('--color_b'),
                 padding: $mol_gap.text,
             },
-            Spread_label_c: {
+            Translate_label_c: {
                 color: $mol_style_func.vary('--color_c'),
                 padding: $mol_gap.text,
             },
-            Spread_cells: {
+            Translate_cells: {
                 pointerEvents: 'auto',
                 Bubble: {
                     display: 'grid',
@@ -9827,6 +9847,7 @@ var $;
 (function ($) {
     $.$mol_syntax2_md_flow = new $mol_syntax2({
         'quote': /^((?:(?:[>"] )(?:[^]*?)$(\r?\n?))+)([\n\r]*)/,
+        'spoiler': /^((?:(?:[\?] )(?:[^]*?)$(\r?\n?))+)([\n\r]*)/,
         'header': /^([#=]+)(\s+)(.*?)$([\n\r]*)/,
         'list': /^((?:(?: ?([*+-])|(?:\d+[\.\)])+) +(?:[^]*?)$(?:\r?\n?)(?:  (?:[^]*?)$(?:\r?\n?))*)+)((?:\r?\n)*)/,
         'code': /^(```\s*)([\w.-]*)[\r\n]+([^]*?)^(```)$([\n\r]*)/,
@@ -10313,11 +10334,6 @@ var $;
             Rows: {
                 padding: $mol_gap.text,
             },
-            Row: {
-                font: {
-                    family: 'inherit',
-                },
-            },
             Copy: {
                 alignSelf: 'flex-start',
                 justifySelf: 'flex-start',
@@ -10801,9 +10817,6 @@ var $;
 			const obj = new this.$.$mol_theme_auto();
 			return obj;
 		}
-		update(){
-			return null;
-		}
 		player_fullscreen(next){
 			return (this?.Player()?.fullscreen(next));
 		}
@@ -10820,7 +10833,7 @@ var $;
 		}
 		Player(){
 			const obj = new this.$.$optimade_cifplayer_player();
-			(obj.attr) = () => ({"fullscreen": (this?.player_fullscreen()), "card_holding": (this?.card_holding())});
+			(obj.attr) = () => ({"fullscreen": (this?.player_fullscreen()), "optimade_tmdne_app_player_hidden": (this?.card_holding())});
 			(obj.data) = () => ((this?.json()));
 			(obj.Fullscreen) = () => (null);
 			(obj.Overlays) = () => (null);
@@ -10917,7 +10930,7 @@ var $;
 		}
 		Prediction(){
 			const obj = new this.$.$mol_list();
-			(obj.attr) = () => ({"rotating": (this?.rotating())});
+			(obj.attr) = () => ({"optimade_tmdne_app_prediction_hidden": (this?.rotating())});
 			(obj.sub) = () => ((this?.params()));
 			return obj;
 		}
@@ -10979,7 +10992,7 @@ var $;
 		}
 		Foot(){
 			const obj = new this.$.$mol_view();
-			(obj.attr) = () => ({"rotating": (this?.rotating())});
+			(obj.attr) = () => ({"optimade_tmdne_app_foot_hidden": (this?.rotating())});
 			(obj.sub) = () => ([
 				(this?.Hint_no()), 
 				(this?.Hint_yes()), 
@@ -11037,9 +11050,6 @@ var $;
 		}
 		plugins(){
 			return [(this?.Theme())];
-		}
-		auto(){
-			return [(this?.update())];
 		}
 		rotating(next){
 			if(next !== undefined) return next;
@@ -11139,6 +11149,9 @@ var $;
         json() {
             return $mol_wire_sync(this.native).json();
         }
+        blob() {
+            return $mol_wire_sync(this.native).blob();
+        }
         buffer() {
             return $mol_wire_sync(this.native).arrayBuffer();
         }
@@ -11158,9 +11171,6 @@ var $;
     __decorate([
         $mol_action
     ], $mol_fetch_response.prototype, "text", null);
-    __decorate([
-        $mol_action
-    ], $mol_fetch_response.prototype, "buffer", null);
     __decorate([
         $mol_action
     ], $mol_fetch_response.prototype, "xml", null);
@@ -11207,6 +11217,9 @@ var $;
         static json(input, init) {
             return this.success(input, init).json();
         }
+        static blob(input, init) {
+            return this.success(input, init).blob();
+        }
         static buffer(input, init) {
             return this.success(input, init).buffer();
         }
@@ -11235,6 +11248,9 @@ var $;
     __decorate([
         $mol_action
     ], $mol_fetch, "json", null);
+    __decorate([
+        $mol_action
+    ], $mol_fetch, "blob", null);
     __decorate([
         $mol_action
     ], $mol_fetch, "buffer", null);
@@ -11305,13 +11321,19 @@ var $;
                     this.Card(this.number()),
                 ];
             }
+            random_sample() {
+                return random_int(1, 384937);
+            }
+            number(next) {
+                return next ?? this.random_sample();
+            }
             number_prefetch(next) {
-                return next ?? random_int(1, 384937);
+                return next ?? this.random_sample();
             }
             update() {
                 this.number_swiped(this.number());
                 this.number(this.number_prefetch());
-                const prefetch = random_int(1, 384937);
+                const prefetch = this.random_sample();
                 this.number_prefetch(prefetch);
                 $mol_wire_async(this).predict_by_number(prefetch);
             }
@@ -11384,6 +11406,12 @@ var $;
         __decorate([
             $mol_mem_key
         ], $optimade_tmdne_app.prototype, "card_loaded", null);
+        __decorate([
+            $mol_action
+        ], $optimade_tmdne_app.prototype, "random_sample", null);
+        __decorate([
+            $mol_mem
+        ], $optimade_tmdne_app.prototype, "number", null);
         __decorate([
             $mol_mem
         ], $optimade_tmdne_app.prototype, "number_prefetch", null);
@@ -11471,7 +11499,7 @@ var $;
                 width: '100%',
                 opacity: 1,
                 transition: 'opacity 0.15s',
-                '[card_holding]': {
+                '[optimade_tmdne_app_player_hidden]': {
                     'true': {
                         opacity: 0.1,
                     },
@@ -11518,7 +11546,7 @@ var $;
                 pointerEvents: 'none',
                 opacity: 1,
                 transition: 'opacity 0.15s',
-                '[rotating]': {
+                '[optimade_tmdne_app_prediction_hidden]': {
                     'true': {
                         opacity: 0,
                     },
@@ -11563,7 +11591,7 @@ var $;
                 pointerEvents: 'none',
                 transition: 'opacity 0.2s',
                 opacity: 1,
-                '[rotating]': {
+                '[optimade_tmdne_app_foot_hidden]': {
                     'true': {
                         opacity: 0,
                     },

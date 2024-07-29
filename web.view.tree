@@ -304,13 +304,16 @@ $optimade_cifplayer_player $mol_view
 	externals? null
 	atom_radius_scale 0.6
 	zoom_scale_step 0.3
+	-
 	vibrate? null
 	unvibrate null
-	spread_cells /
-		<= spread_a? 1
-		<= spread_b? 1
-		<= spread_c? 1
-	spread_cells_limit 50
+	phonon? null
+	-
+	translate_cells /
+		<= translate_a? 1
+		<= translate_b? 1
+		<= translate_c? 1
+	translate_cells_limit 50
 	-
 	plugins /
 		<= Theme $mol_theme_auto
@@ -324,6 +327,8 @@ $optimade_cifplayer_player $mol_view
 		<= cell_box null
 		<= axes_box null
 		<= overlay_changed null
+		<= vibration_active? false
+		<= vibration_restart null
 	atom_box* null
 	overlay_box* null
 	-
@@ -365,31 +370,31 @@ $optimade_cifplayer_player $mol_view
 										<= Sym_check*0 $mol_check_box
 											title <= sym_name* \
 											checked? <=> symmetry_visible*? false
-				<= Spread_cells $mol_pick
+				<= Translate_cells $mol_pick
 					trigger_content /
-						<= spread_cell_label \1×1×1
+						<= translate_cell_label \1×1×1
 					bubble_content /
-						<= Spread_label_a $mol_paragraph
+						<= Translate_label_a $mol_paragraph
 							title \a
-						<= Spread_a $mol_number
-							value? <=> spread_a?
+						<= Translate_a $mol_number
+							value? <=> translate_a?
 							hint \1
 							value_min 1
-							value_max <= spread_limit_a 1
-						<= Spread_label_b $mol_paragraph
+							value_max <= translate_limit_a 1
+						<= Translate_label_b $mol_paragraph
 							title \b
-						<= Spread_b $mol_number
-							value? <=> spread_b?
+						<= Translate_b $mol_number
+							value? <=> translate_b?
 							hint \1
 							value_min 1
-							value_max <= spread_limit_b 1
-						<= Spread_label_c $mol_paragraph
+							value_max <= translate_limit_b 1
+						<= Translate_label_c $mol_paragraph
 							title \c
-						<= Spread_c $mol_number
-							value? <=> spread_c?
+						<= Translate_c $mol_number
+							value? <=> translate_c?
 							hint \1
 							value_min 1
-							value_max <= spread_limit_c 1
+							value_max <= translate_limit_c 1
 				<= Center $mol_check_icon
 					checked? <=> centered? true
 					Icon <= Center_icon $mol_icon_image_filter_center_focus
@@ -811,8 +816,6 @@ $optimade_tmdne_app $mol_view
 	number? 1
 	plugins /
 		<= Theme $mol_theme_auto
-	auto /
-		<= update null
 	rotating? false
 	number_swiped? 0
 	number_prefetch? 0
@@ -821,7 +824,7 @@ $optimade_tmdne_app $mol_view
 			fullscreen? => player_fullscreen?
 			attr *
 				fullscreen <= player_fullscreen?
-				card_holding <= card_holding
+				optimade_tmdne_app_player_hidden <= card_holding
 			data <= json null
 			Fullscreen null
 			Overlays null
@@ -836,7 +839,7 @@ $optimade_tmdne_app $mol_view
 							title \Does this material exist?
 		<= Prediction $mol_list
 			attr *
-				rotating <= rotating
+				optimade_tmdne_app_prediction_hidden <= rotating
 			sub <= params /
 				<= Param* $mol_view
 					sub /
@@ -862,7 +865,7 @@ $optimade_tmdne_app $mol_view
 										\)
 		<= Foot $mol_view
 			attr *
-				rotating <= rotating
+				optimade_tmdne_app_foot_hidden <= rotating
 			sub /
 				<= Hint_no $mol_button_minor
 					title \ᐊ No
