@@ -17,7 +17,7 @@ namespace $.$$ {
 			width: '100%',
 			opacity: 1,
 			transition: 'opacity 0.15s',
-			'[card_holding]': {
+			'[optimade_tmdne_app_player_hidden]': {
 				'true': {
 					opacity: 0.1,
 				},
@@ -68,7 +68,7 @@ namespace $.$$ {
 			pointerEvents: 'none',
 			opacity: 1,
 			transition: 'opacity 0.15s',
-			'[rotating]': {
+			'[optimade_tmdne_app_prediction_hidden]': {
 				'true': {
 					opacity: 0,
 				},
@@ -121,7 +121,7 @@ namespace $.$$ {
 			pointerEvents: 'none',
 			transition: 'opacity 0.2s',
 			opacity: 1,
-			'[rotating]': {
+			'[optimade_tmdne_app_foot_hidden]': {
 				'true': {
 					opacity: 0,
 				},
