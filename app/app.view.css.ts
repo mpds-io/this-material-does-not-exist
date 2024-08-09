@@ -51,6 +51,22 @@ namespace $.$$ {
 				size: '1.2rem',
 			},
 		},
+		
+		Head_link: {
+			font: {
+				size: '1.2rem',
+			},
+			textDecoration: 'underline',
+			paddingTop: '0',
+			paddingLeft: '4px',
+			paddingRight: '4px',
+
+			':hover': {
+				background: {
+					color: 'transparent',
+				},
+			},
+		},
 
 		Prediction: {
 			userSelect: 'none',

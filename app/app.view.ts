@@ -28,6 +28,12 @@ namespace $.$$ {
 		}
 
 		@ $mol_mem
+		title_link() {
+		  const link_id = this.fetch_by_number( this.number() )?.data[ 0 ]?.id
+		  return `https://optimade-gnome.odbx.science/v1/structures/${link_id}`
+		}
+
+		@ $mol_mem
 		json() {
 			return this.fetch_by_number( this.number() )
 		}
