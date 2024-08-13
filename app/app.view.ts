@@ -28,6 +28,12 @@ namespace $.$$ {
 		}
 
 		@ $mol_mem
+		title_link() {
+		  const link_id = this.fetch_by_number( this.number() )?.data[ 0 ]?.id
+		  return `https://optimade-gnome.odbx.science/v1/structures/${link_id}`
+		}
+
+		@ $mol_mem
 		json() {
 			return this.fetch_by_number( this.number() )
 		}
@@ -38,6 +44,13 @@ namespace $.$$ {
 			let str = json?.data[ 0 ]?.attributes?.chemical_formula_reduced
 			return formula_html( str )
 		}
+
+		@ $mol_mem_key
+		card_link( n: number ) {
+			const link_id = this.fetch_by_number( n )?.data[ 0 ]?.id
+			return `https://optimade-gnome.odbx.science/v1/structures/${link_id}`
+		}
+		
 
 		@ $mol_mem_key
 		card_loaded( n: number ) {

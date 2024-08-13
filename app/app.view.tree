@@ -21,9 +21,14 @@ $optimade_tmdne_app $mol_view
 		<= Head_space $mol_view
 			sub /
 				<= Head_card $mol_list
-					sub /
-						<= Head_title $mol_paragraph
-							title \Does this material exist?
+					sub / <= Head_title $mol_paragraph
+						sub /
+							\Does
+							<= Head_link $mol_link
+								uri <= title_link \
+								sub /
+									\this material
+							\exist?
 		<= Prediction $mol_list
 			attr *
 				optimade_tmdne_app_prediction_hidden <= rotating
@@ -62,6 +67,7 @@ $optimade_tmdne_app $mol_view
 					click? <=> click_yes? null
 				^ cards / <= Card* $optimade_tmdne_card
 					name <= card_name* \
+					link <= card_link* \
 					loaded <= card_loaded* false
 					why? <=> why*? \
 					pointer_holding? <=> card_holding? false
