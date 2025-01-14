@@ -81,16 +81,6 @@ namespace $.$$ {
 				weight: 700,
 				size: '1.5rem',
 			},
-			pointerEvents: 'auto',
-		},
-
-		Name_content:{
-			flex:{
-				direction: 'row'
-			},
-			justify: {
-				content: 'center',
-			},
 		},
 
 		Question: {

@@ -44,7 +44,6 @@ namespace $.$$ {
 			const link_id = this.fetch_by_number( n )?.data[ 0 ]?.id
 			return `https://optimade-gnome.odbx.science/v1/structures/${link_id}`
 		}
-		
 
 		@ $mol_mem_key
 		card_loaded( n: number ) {

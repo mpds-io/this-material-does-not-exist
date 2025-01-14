@@ -52,6 +52,10 @@ namespace $.$$ {
 			},
 		},
 
+		Head_link: {
+			lineHeight: '10px',
+		},
+
 		Prediction: {
 			userSelect: 'none',
 			font: {
